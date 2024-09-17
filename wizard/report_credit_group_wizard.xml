@@ -1,0 +1,33 @@
+<odoo>
+    <!-- vista del wizard -->
+    <record id="view_credit_group_report_wizard_form" model="ir.ui.view">
+        <field name="name">credit.group.report.wizard.form</field>
+        <field name="model">credit.group.report.wizard</field>
+        <field name="arch" type="xml">
+            <form string="generar reporte de credito">
+                <group>
+                    <field name="group_id"/>
+                </group>
+                <footer>
+                    <button string="generar reporte" type="object" name="generate_report" class="btn-primary"/>
+                    <button string="cancelar" class="btn-secondary" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <!-- accion del wizard -->
+    <record id="action_credit_group_report_wizard" model="ir.actions.act_window">
+        <field name="name">generar reporte de credito</field>
+        <field name="res_model">credit.group.report.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+    <!-- menu para acceder al wizard desde el menu de informes de ventas -->
+    <menuitem id="menu_credit_group_report_wizard" 
+    name="reporte de credito utilizado" 
+    parent="sale.menu_sale_report" 
+    action="action_credit_group_report_wizard"/>
+
+</odoo>

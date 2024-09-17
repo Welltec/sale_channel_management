@@ -1,0 +1,20 @@
+
+button[data-value="no_limit"][aria-checked="true"] {
+    background-color: #d3d3d3 !important; 
+    color: #000 !important;
+}
+
+button[data-value="available"][aria-checked="true"] {
+    background-color: #28a745 !important; 
+    color: #fff !important; 
+}
+
+button[data-value="blocked"][aria-checked="true"] {
+    background-color: #dc3545 !important; 
+    color: #fff !important; 
+}
+
+/*si estan deshabilitados*/
+button[disabled] {
+    opacity: 0.7;
+}

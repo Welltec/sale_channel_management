@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- vista arbol para mostrar el campo channel_id -->
+    <record id="view_picking_channel_tree" model="ir.ui.view">
+        <field name="name">stock.picking.channel.tree</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.vpicktree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="channel_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- vista formulario para agregar el campo channel_id -->
+    <record id="view_picking_channel_form" model="ir.ui.view">
+        <field name="name">stock.picking.form</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='location_id']" position="after">
+                <field name="channel_id" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- heredar la vista de busqueda para agregar filtro y agrupacion por canal de venta -->
+    <record id="channel_sale_search_inherit" model="ir.ui.view">
+        <field name="name">stock.picking.channel.search.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_internal_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//filter[@name='my_transfers']" position="after">
+                <filter string="Canal de Venta" name="channel_id" domain="[('channel_id', '!=', False)]"/>
+            </xpath>
+            <xpath expr="//filter[@name='picking_type']" position="after">
+                <filter string="Canal de Venta" name="group_by_channel" domain="[]" context="{'group_by': 'channel_id'}"/>
+            </xpath>
+        </field>
+    </record> 
+</odoo>

@@ -1,0 +1,9 @@
+<odoo>
+    <record id="seq_sale_channel" model="ir.sequence">
+        <field name="name">Secuencia de Código de Canal de Venta</field>
+        <field name="code">sale.channel.code</field>
+        <field name="prefix">CH</field>
+        <field name="padding">6</field>
+        <field name="number_increment">1</field>
+    </record>
+</odoo>

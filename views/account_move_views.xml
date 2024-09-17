@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Vista arbol para mostrar el campo channel_id -->
+    <record id="view_move_channel_tree" model="ir.ui.view">
+        <field name="name">account.move.channel.tree</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_out_invoice_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='partner_id']" position="after">
+                <field name="channel_id"/>
+            </xpath>
+        </field>
+    </record>
+    
+    <!-- Vista formulario para agregar el campo channel_id -->
+    <record id="view_move_channel_form" model="ir.ui.view">
+        <field name="name">account.move.channel.form</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_move_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='payment_reference']" position="after">
+                <field name="channel_id" options="{'no_create': True}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Heredar la vista de busqueda para agregar filtro y agrupacion por Canal de Venta -->
+    <record id="channel_sale_search_move_inherit" model="ir.ui.view">
+        <field name="name">account.move.channel.search.inherit</field>
+        <field name="model">account.move</field>
+        <field name="inherit_id" ref="account.view_account_invoice_filter"/>
+        <field name="arch" type="xml">
+            <!-- Anadir filtro por Canal de Venta -->
+            <xpath expr="//filter[@name='date']" position="after">
+                <filter string="Canal de Venta" name="channel_id" domain="[('channel_id', '!=', False)]"/>
+            </xpath>
+            
+            <!-- Anadir agrupacion por Canal de Venta -->
+            <xpath expr="//filter[@name='duedate']" position="after">
+                <filter string="Canal de Venta" name="group_by_channel" domain="[]" context="{'group_by': 'channel_id'}"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

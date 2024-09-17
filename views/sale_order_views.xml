@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_sale_order_form_channel" model="ir.ui.view">
+        <field name="name">sale.order.form.channel</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='validity_date']" position="before">
+                <field name="channel_id" options="{'no_create': True}" attrs="{'readonly': [('state', '!=', 'draft')]}"/>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="view_order_form_inherit_credit" model="ir.ui.view">
+        <field name="name">sale.order.form.credit.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <sheet position="inside">
+                <group string="Información de Crédito">
+                    <field name="credit_status" readonly="1" widget="statusbar" options="{'no_open': True}" attrs="{'invisible': [('state', '=', 'sale')]}"/>
+                </group>
+            </sheet>
+        </field>
+    </record>
+
+    <record id="view_order_tree_inherit_credit" model="ir.ui.view">
+        <field name="name">sale.order.tree.credit.status</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_tree"/>
+        <field name="arch" type="xml">
+            <field name="state" position="after">
+                <field name="credit_status" widget="statusbar" options="{'no_open': True}" />
+            </field>
+        </field>
+    </record>
+    
+</odoo>

@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="credit_group_report_template" t-name="sale_channel_management.credit_group_report_template">
+        <t t-call="web.external_layout" t-lang="lang">
+            <main>
+                <div class="page">
+                    <!--titulo del reporte -->
+                    <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">Reporte de Crédito Utilizado</h1>
+                    <!-- info del grupo -->
+                    <p style="font-size: 16px; margin-bottom: 15px;">
+                        <strong>Código del Grupo:</strong> <t t-esc="group.code"/><br/>
+                        <strong>Canal de Venta:</strong> <t t-esc="group.channel_id.name"/>
+                    </p>
+                    
+                    <!--info de los clientes -->
+                    <h3 style="font-size: 18px; margin-top: 20px; margin-bottom: 10px;">Clientes Asociados</h3>
+                    <t t-foreach="customers" t-as="customer">
+                        <div style="border-bottom: 2px solid #000; padding-bottom: 10px; margin-bottom: 20px;">
+
+                            <h2 style="font-size: 20px; font-weight: bold;">
+                                Cliente: <t t-esc="customer['partner'].name"/>
+                            </h2>
+                            <!--detalles adicionales del cliente -->
+                            <p>
+                                <strong>Documento:</strong> <t t-esc="customer['document']"/><br/>
+                                <strong>Teléfono:</strong> <t t-esc="customer['phone']"/><br/>
+                                <strong>Correo Electrónico:</strong> <t t-esc="customer['email']"/>
+                            </p>
+
+                            <!--titulo de ordenes de venta -->
+                            <h3 style="font-size: 16px; margin-top: 10px;">Órdenes de Venta</h3>
+                            <table class="table table-sm" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                                <thead>
+                                    <tr style="background-color: #f0f0f0;">
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Número</th>
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Fecha</th>
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Importe</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="customer['combined_data']" t-as="record">
+                                        <t t-if="record['type'] == 'orden'">
+                                            <tr>
+                                                <td style="padding: 5px; border: 1px solid #ccc;"><t t-esc="record['number']"/></td>
+                                                <td style="padding: 5px; border: 1px solid #ccc;"><t t-esc="record['date']"/></td>
+                                                <td style="padding: 5px; border: 1px solid #ccc; text-align: right;"><t t-esc="record['amount']"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <!--titulo de facturas -->
+                            <h3 style="font-size: 16px; margin-top: 10px;">Facturas</h3>
+                            <table class="table table-sm" style="width: 100%; border-collapse: collapse; margin-bottom: 15px;">
+                                <thead>
+                                    <tr style="background-color: #f0f0f0;">
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Número</th>
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Fecha</th>
+                                        <th style="padding: 5px; border: 1px solid #ccc;">Importe Adeudado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="customer['combined_data']" t-as="record">
+                                        <t t-if="record['type'] == 'factura'">
+                                            <tr>
+                                                <td style="padding: 5px; border: 1px solid #ccc;"><t t-esc="record['number']"/></td>
+                                                <td style="padding: 5px; border: 1px solid #ccc;"><t t-esc="record['date']"/></td>
+                                                <td style="padding: 5px; border: 1px solid #ccc; text-align: right;"><t t-esc="record['amount']"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </tbody>
+                            </table>
+
+                            <!--total de credito del cliente-->
+                            <h3 style="font-size: 16px; margin-top: 10px; text-align: right;">Total Crédito Utilizado: <t t-esc="customer['total_credit']"/></h3>
+                        </div>
+                    </t>
+
+                    <!--total de creditos globales del grupo-->
+                    <div style="border-top: 2px solid #000; padding-top: 10px; margin-top: 20px;">
+                        <h3 style="font-size: 18px;">Créditos Globales del Grupo</h3>
+                        <p>
+                            <strong>Crédito Global:</strong> <t t-esc="credit_data['credit_limit']"/><br/>
+                            <strong>Crédito Utilizado:</strong> <t t-esc="credit_data['credit_used']"/><br/>
+                            <strong>Crédito Disponible:</strong> <t t-esc="credit_data['credit_available']"/>
+                        </p>
+                    </div>
+                </div>
+            </main>
+        </t>
+    </template>
+
+    <!--definicion de la accion del reporte-->
+    <record id="credit_group_report_action" model="ir.actions.report">
+        <field name="name">Reporte de Crédito Utilizado</field>
+        <field name="model">credit.group</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">sale_channel_management.credit_group_report_template</field>
+        <field name="report_file">sale_channel_management.credit_group_report_template</field>
+        <field name="print_report_name">'Reporte de Crédito - %s' % (object.name)</field>
+    </record>
+</odoo>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- para abrir canales de venta -->
+    <record id="action_sale_channel" model="ir.actions.act_window">
+        <field name="name">Canales de Venta</field>
+        <field name="res_model">sale.channel</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Gestion de los Canales de Venta utilizados para las ordenes de venta y su asignacion de almacenes y diarios de facturacion.
+            </p>
+        </field>
+    </record>
+
+    
+    <record id="action_credit_group" model="ir.actions.act_window">
+        <field name="name">Grupos de Credito</field>
+        <field name="res_model">credit.group</field>
+        <field name="view_mode">tree,form</field>
+        <field name="help" type="html">
+            <p>
+                Gestion de Grupos de Credito para controlar el credito disponible y utilizado por los clientes en cada canal de venta.
+            </p>
+        </field>
+    </record>
+
+    <!-- Submenu para Canales de Venta en "Ventas/Configuracion" -->
+    <menuitem id="menu_sale_channel" name="Canales de Venta" parent="sale.menu_sale_config" sequence="10" action="action_sale_channel"/>
+
+    <!-- Submenu para Grupos de Credito en "Ventas/Configuracion" -->
+    <menuitem id="menu_credit_group" name="Grupos de Credito" parent="sale.menu_sale_config" sequence="20" action="action_credit_group"/>
+    
+</odoo>
